@@ -8,7 +8,6 @@ wn.bgcolor("black")
 wn.setup(width=800, height=600)
 wn.tracer(0)
 
-
 # Paddles
 paddle_A = Paddle("white", -350, 0)
 paddle_B = Paddle("white", 350, 0)
@@ -21,7 +20,7 @@ score_a = 0
 score_b = 0
 
 # Making the Scoreboard
-Score_Card = Score("white","Player A: 0  Player B: 0", "center", font="Times New Roman", size=24, fonttype="normal")
+Score_Card = Score("white", "Player A: 0  Player B: 0", "center", font="Times New Roman", size=24, fonttype="normal")
 
 
 # Function
@@ -89,13 +88,26 @@ while True:
         Score_Card.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center",
                          font=("Times New Roman", 24, "normal"))
 
-    # Paddle and Ball collision
-    if (Ball.xcor() > 340 and Ball.xcor() < 350) and (
-            Ball.ycor() < paddle_B.ycor() + 40 and Ball.ycor() > paddle_B.ycor() - 40):
-        Ball.setx(340)
-        Ball.dx *= -1.15
+    # Paddle Border
+    if paddle_A.ycor() > 248:
+        paddle_A.sety(248)
 
-    if (Ball.xcor() < -340 and Ball.xcor() > -350) and (
-            Ball.ycor() < paddle_A.ycor() + 40 and Ball.ycor() > paddle_A.ycor() - 40):
+    if paddle_A.ycor() < -240:
+        paddle_A.sety(-240)
+
+    if paddle_B.ycor() > 248:
+        paddle_B.sety(248)
+
+    if paddle_B.ycor() < -240:
+        paddle_B.sety(-240)
+
+    # Paddle and Ball collision
+    if (340 < Ball.xcor() < 350) and (
+            paddle_B.ycor() + 40 > Ball.ycor() > paddle_B.ycor() - 40):
+        Ball.setx(340)
+        Ball.dx *= -1.175
+
+    if (-340 > Ball.xcor() > -350) and (
+            paddle_A.ycor() + 40 > Ball.ycor() > paddle_A.ycor() - 40):
         Ball.setx(-340)
-        Ball.dx *= -1.15
+        Ball.dx *= -1.175
