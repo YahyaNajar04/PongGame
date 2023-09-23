@@ -31,6 +31,8 @@ Ball.shape("square")
 Ball.color("red")
 Ball.penup()
 Ball.goto(0, 0)
+Ball.dx = 0.06
+Ball.dy = 0.06
 
 
 # Function
@@ -65,7 +67,27 @@ wn.onkeypress(paddle_a_down, "s")
 wn.onkeypress(paddle_b_up, "Up")
 wn.onkeypress(paddle_b_down, "Down")
 
-
 # Main Game Loop
 while True:
     wn.update()
+
+    # Move the Ball
+    Ball.setx(Ball.xcor() + Ball.dx)
+    Ball.sety(Ball.ycor() + Ball.dy)
+
+    # Border Checking
+    if Ball.ycor() > 290:
+        Ball.sety(290)
+        Ball.dy *= -1
+
+    if Ball.ycor() < -290:
+        Ball.sety(-290)
+        Ball.dy *= -1
+
+    if Ball.xcor() > 390:
+        Ball.goto(0, 0)
+        Ball.dx = -0.06
+
+    if Ball.xcor() < -390:
+        Ball.goto(0, 0)
+        Ball.dx = 0.06
