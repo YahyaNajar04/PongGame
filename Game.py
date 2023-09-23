@@ -8,6 +8,7 @@ wn.bgcolor("black")
 wn.setup(width=800, height=600)
 wn.tracer(0)
 
+
 # Paddles
 paddle_A = Paddle("white", -350, 0)
 paddle_B = Paddle("white", 350, 0)
