@@ -1,6 +1,8 @@
 import turtle
+import winsound
 from items import Paddle, Ball
 from ScoreCard import Score
+import time
 
 wn = turtle.Screen()
 wn.title("Pong Game by Yahya Najar")
@@ -13,14 +15,29 @@ paddle_A = Paddle("white", -350, 0)
 paddle_B = Paddle("white", 350, 0)
 
 # Ball
-Ball = Ball("red", "circle", 0, 0, 0.1, 0.1)
+Ball = Ball("red", "circle", 0, 0, 0.5, 0.5)
 
 # Tracking Score
 score_a = 0
 score_b = 0
 
 # Making the Scoreboard
-Score_Card = Score("white", "Player A: 0  Player B: 0", "center", font="Times New Roman", size=24, fonttype="normal")
+Score_Card = Score("white", 0, 260,  "Player A: 0  Player B: 0", "center", font="Times New Roman", size=24, fonttype="normal")
+
+# Making Winning Screen
+Win_A = turtle.Turtle()
+Win_A.speed(0)
+Win_A.color("green")
+Win_A.penup()
+Win_A.hideturtle()
+Win_A.goto(0, 0)
+
+Win_B = turtle.Turtle()
+Win_B.speed(0)
+Win_B.color("green")
+Win_B.penup()
+Win_B.hideturtle()
+Win_B.goto(0, 0)
 
 
 # Function
@@ -48,12 +65,14 @@ def paddle_b_down():
     paddle_B.sety(y)
 
 
+
 # Keyboard Binding
 wn.listen()
 wn.onkeypress(paddle_a_up, "w")
 wn.onkeypress(paddle_a_down, "s")
 wn.onkeypress(paddle_b_up, "Up")
 wn.onkeypress(paddle_b_down, "Down")
+
 
 # Main Game Loop
 while True:
@@ -67,10 +86,12 @@ while True:
     if Ball.ycor() > 290:
         Ball.sety(290)
         Ball.dy *= -1
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
 
     if Ball.ycor() < -290:
         Ball.sety(-280)
         Ball.dy *= -1
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
 
     if Ball.xcor() > 390:
         Ball.goto(0, 0)
@@ -106,8 +127,25 @@ while True:
             paddle_B.ycor() + 40 > Ball.ycor() > paddle_B.ycor() - 40):
         Ball.setx(340)
         Ball.dx *= -1.175
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
 
     if (-340 > Ball.xcor() > -350) and (
             paddle_A.ycor() + 40 > Ball.ycor() > paddle_A.ycor() - 40):
         Ball.setx(-340)
         Ball.dx *= -1.175
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+
+    if score_a == 1:
+        Ball.dx = 0
+        Ball.dy = 0
+        Win_A.write("Player A wins", align="center", font=("Times New Roman", 24, "normal"))
+        Ball.hideturtle()
+        winsound.PlaySound("Win.mp3", winsound.SND_ASYNC)
+
+    if score_b == 1:
+        Ball.dx = 0
+        Ball.dy = 0
+        Win_B = Score("Green", "Player B Wins", "center", "Times New Roman", 24, "bold")
+        Ball.hideturtle()
+        winsound.PlaySound("Win.mp3", winsound.SND_ASYNC)
+
